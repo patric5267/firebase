@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialstates = {
-    isloading2:true,
+    isloading2:false,
     iserror:null,
     todosarray:[]
 }

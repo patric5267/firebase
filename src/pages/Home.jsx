@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ExitIcon } from "@radix-ui/react-icons"
 import { MdDelete } from "react-icons/md";
 import { TfiWrite } from "react-icons/tfi";
-
 import {
     Dialog,
     DialogContent,
@@ -41,12 +40,12 @@ const Home = () => {
     }, [iserror])
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setTodo({ ...todo, userid: user.uid })
-                dispatch(getalltodos(user.uid))
+            if (!user) {
+                navigate("/login")
             }
             else {
-                navigate("/login")
+                setTodo({ ...todo, userid: user.uid })
+                dispatch(getalltodos(user.uid))
             }
         })
     }, [])
@@ -105,7 +104,7 @@ const Home = () => {
     }
     return (
         <>
-         { todo.uid &&  <div className='relative flex flex-col items-center px-4 '>
+      { todo.userid &&  <div className='relative flex flex-col items-center px-4 '>
                 <div className=' sticky top-0 py-4  w-full flex justify-center'>
                     <form className="flex gap-2 sm:gap-0 flex-col sm:flex-row  w-full max-w-sm items-center space-x-2 " onSubmit={posttodo}>
                         <Input value={todo.todo} className="w-full" required type="text" placeholder="Walk at 9PM" onChange={(e) => setTodo({ ...todo, todo: e.target.value })} />
@@ -164,7 +163,7 @@ const Home = () => {
                 <Button className="logout hidden sm:block absolute top-2 right-2  bg-transparent hover:bg-white" onClick={() => signOut(auth)}>
                     <ExitIcon className=' h-7 w-7 text-black' />
                 </Button>
-            </div> }
+            </div>  }
         </>
 
     )

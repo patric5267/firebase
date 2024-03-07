@@ -3,11 +3,12 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import {ReloadIcon } from '@radix-ui/react-icons'
+import { ReloadIcon } from '@radix-ui/react-icons'
+import { Link } from 'react-router-dom';
 import hoc from '@/hoc';
 const Signup = (props) => {
     return (
-        <div className=' h-[100svh] flex flex-col items-center justify-center '>
+        <div className=' h-[100vh] flex flex-col items-center justify-center '>
             <h2 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                 SignUp
             </h2>
@@ -18,6 +19,10 @@ const Signup = (props) => {
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                     Please wait
                 </Button> : <Button className="w-full">Submit</Button>}
+                <div className='flex gap-2 justify-center mt-2'>
+                    <p>ALready a user ?</p>
+                    <Link to='/login'>Login</Link>
+                </div>
             </form>
             <p className="text-sm text-muted-foreground my-2">or</p>
             <Button onClick={props.loginwithgoogle} className="mb-4 sm:w-[15rem]"><FcGoogle
@@ -29,4 +34,4 @@ const Signup = (props) => {
     )
 }
 
-export default hoc(Signup , "sign")
+export default hoc(Signup, "sign")

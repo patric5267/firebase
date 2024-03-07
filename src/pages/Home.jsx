@@ -104,66 +104,69 @@ const Home = () => {
         })
     }
     return (
-        <div className='relative flex flex-col items-center px-4 '>
-            <div className=' sticky top-0 py-4  w-full flex justify-center'>
-                <form className="flex gap-2 sm:gap-0 flex-col sm:flex-row  w-full max-w-sm items-center space-x-2 " onSubmit={posttodo}>
-                    <Input value={todo.todo} className="w-full" required type="text" placeholder="Walk at 9PM" onChange={(e) => setTodo({ ...todo, todo: e.target.value })} />
-                    <div className=' flex justify-between w-full items-center'>
-                        <Button type="submit">Add Todo</Button>
-                        <Button className="logout  sm:hidden   bg-transparent hover:bg-white" onClick={() => signOut(auth)}>
-                            <ExitIcon className=' h-7 w-7 text-black' />
-                        </Button>
-                    </div>
-                </form>
-            </div>
-            {isloading2 ? <h1>loading...</h1> : todosarray.length === 0 ? <h1>no todo</h1> : <ScrollArea className=" w-full sm:w-[40rem] rounded-md border-0">
-                <div className="p-4" >
-                    <h4 className="mb-4 text-sm font-medium leading-none">{`All Todos (${todosarray.length})`}</h4>
-                    {todosarray.map((todos, index) =>
-                        <div key={index}>
-                            <div className="flex justify-between items-center  text-sm w-full">
-                                <p key={index}> {todos.todo}</p>
-                                <div className="btns flex gap-2">
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button variant="outline" className="bg-green-500 text-white" onClick={() => setUtodo(todos)}>
-                                                {window.innerWidth < 640 ? <TfiWrite className=' text-lg' /> : "Update"}
-                                            </Button>
-                                        </DialogTrigger>
-                                        {utodo && <DialogContent className="sm:max-w-[425px]">
-                                            <DialogHeader>
-                                                <DialogTitle>Update Todo</DialogTitle>
-                                            </DialogHeader>
-                                            <form onSubmit={updatetodoitem}>
-                                                <div className="grid gap-4 py-4">
-                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                        <Label htmlFor="name" className="text-right">
-                                                            Title
-                                                        </Label>
-                                                        <Input id="name" required value={utodo.todo} onChange={(e) => setUtodo({ ...utodo, todo: e.target.value })} className="col-span-3" />
-                                                    </div>
-                                                </div>
-                                                <DialogFooter>
-                                                    <Button type="submit">Save changes</Button>
-                                                </DialogFooter>
-                                            </form>
-                                        </DialogContent>}
-                                    </Dialog>
-                                    <Button variant="destructive" onClick={() => deletetodoitem(todos.id)}>
-                                        {window.innerWidth < 640 ? <MdDelete className=' text-lg' /> : "Delete"}
-                                    </Button>
-                                </div>
-
-                            </div>
-                            <Separator className="my-2" />
+        <>
+         { todo.uid &&  <div className='relative flex flex-col items-center px-4 '>
+                <div className=' sticky top-0 py-4  w-full flex justify-center'>
+                    <form className="flex gap-2 sm:gap-0 flex-col sm:flex-row  w-full max-w-sm items-center space-x-2 " onSubmit={posttodo}>
+                        <Input value={todo.todo} className="w-full" required type="text" placeholder="Walk at 9PM" onChange={(e) => setTodo({ ...todo, todo: e.target.value })} />
+                        <div className=' flex justify-between w-full items-center'>
+                            <Button type="submit">Add Todo</Button>
+                            <Button className="logout  sm:hidden   bg-transparent hover:bg-white" onClick={() => signOut(auth)}>
+                                <ExitIcon className=' h-7 w-7 text-black' />
+                            </Button>
                         </div>
-                    )}
+                    </form>
                 </div>
-            </ScrollArea>}
-            <Button className="logout hidden sm:block absolute top-2 right-2  bg-transparent hover:bg-white" onClick={() => signOut(auth)}>
-                <ExitIcon className=' h-7 w-7 text-black' />
-            </Button>
-        </div>
+                {isloading2 ? <h1>loading...</h1> : todosarray.length === 0 ? <h1>no todo</h1> : <ScrollArea className=" w-full sm:w-[40rem] rounded-md border-0">
+                    <div className="p-4" >
+                        <h4 className="mb-4 text-sm font-medium leading-none">{`All Todos (${todosarray.length})`}</h4>
+                        {todosarray.map((todos, index) =>
+                            <div key={index}>
+                                <div className="flex justify-between items-center  text-sm w-full">
+                                    <p key={index}> {todos.todo}</p>
+                                    <div className="btns flex gap-2">
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="outline" className="bg-green-500 text-white" onClick={() => setUtodo(todos)}>
+                                                    {window.innerWidth < 640 ? <TfiWrite className=' text-lg' /> : "Update"}
+                                                </Button>
+                                            </DialogTrigger>
+                                            {utodo && <DialogContent className="sm:max-w-[425px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Update Todo</DialogTitle>
+                                                </DialogHeader>
+                                                <form onSubmit={updatetodoitem}>
+                                                    <div className="grid gap-4 py-4">
+                                                        <div className="grid grid-cols-4 items-center gap-4">
+                                                            <Label htmlFor="name" className="text-right">
+                                                                Title
+                                                            </Label>
+                                                            <Input id="name" required value={utodo.todo} onChange={(e) => setUtodo({ ...utodo, todo: e.target.value })} className="col-span-3" />
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <Button type="submit">Save changes</Button>
+                                                    </DialogFooter>
+                                                </form>
+                                            </DialogContent>}
+                                        </Dialog>
+                                        <Button variant="destructive" onClick={() => deletetodoitem(todos.id)}>
+                                            {window.innerWidth < 640 ? <MdDelete className=' text-lg' /> : "Delete"}
+                                        </Button>
+                                    </div>
+
+                                </div>
+                                <Separator className="my-2" />
+                            </div>
+                        )}
+                    </div>
+                </ScrollArea>}
+                <Button className="logout hidden sm:block absolute top-2 right-2  bg-transparent hover:bg-white" onClick={() => signOut(auth)}>
+                    <ExitIcon className=' h-7 w-7 text-black' />
+                </Button>
+            </div> }
+        </>
+
     )
 }
 

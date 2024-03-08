@@ -24,6 +24,7 @@ import {
 import { Label } from "@/components/ui/label"
 const Home = () => {
     const dispatch = useDispatch()
+    const[loading , setLoading] = useState(false)
     const { todosarray, iserror, isloading2 } = useSelector((state) => state.todo)
     const { toast } = useToast()
     const navigate = useNavigate()
@@ -32,23 +33,28 @@ const Home = () => {
     })
     const [utodo, setUtodo] = useState(null)
     useEffect(() => {
+        setLoading(true)
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate("/login")
+                setLoading(false)
+            }
+            else {
+                setLoading(false)
+                setTodo({ ...todo, userid: user.uid })
+                dispatch(getalltodos(user.uid))
+            }
+        })
+    }, [])
+
+    useEffect(() => {
         iserror && toast({
             variant: "destructive",
             title: "Uh oh! Something went wrong.",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
     }, [iserror])
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                navigate("/login")
-            }
-            else {
-                setTodo({ ...todo, userid: user.uid })
-                dispatch(getalltodos(user.uid))
-            }
-        })
-    }, [])
+ 
     const posttodo = (e) => {
         e.preventDefault()
         dispatch(addtodos(todo))
@@ -104,7 +110,7 @@ const Home = () => {
     }
     return (
         <>
-      { todo.userid &&  <div className='relative flex flex-col items-center px-4 '>
+      { loading ? <div className=' fixed h-full w-full flex justify-center items-center'><h1>Please wait....</h1></div>:  <div className='relative flex flex-col items-center px-4 '>
                 <div className=' sticky top-0 py-4  w-full flex justify-center'>
                     <form className="flex gap-2 sm:gap-0 flex-col sm:flex-row  w-full max-w-sm items-center space-x-2 " onSubmit={posttodo}>
                         <Input value={todo.todo} className="w-full" required type="text" placeholder="Walk at 9PM" onChange={(e) => setTodo({ ...todo, todo: e.target.value })} />
@@ -163,7 +169,7 @@ const Home = () => {
                 <Button className="logout hidden sm:block absolute top-2 right-2  bg-transparent hover:bg-white" onClick={() => signOut(auth)}>
                     <ExitIcon className=' h-7 w-7 text-black' />
                 </Button>
-            </div>  }
+            </div>   }
         </>
 
     )

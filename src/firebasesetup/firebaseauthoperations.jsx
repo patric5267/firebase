@@ -1,4 +1,4 @@
-import {createUserWithEmailAndPassword , signInWithPopup, GithubAuthProvider, signInWithEmailAndPassword , GoogleAuthProvider} from 'firebase/auth'
+import {createUserWithEmailAndPassword , sendPasswordResetEmail , signInWithPopup, GithubAuthProvider, signInWithEmailAndPassword , GoogleAuthProvider  } from 'firebase/auth'
 import { auth } from './firebaseconfig'
 const googleAuthProvider = new GoogleAuthProvider()
 const githubAuthProvider = new GithubAuthProvider()
@@ -17,4 +17,8 @@ export const googlelogin = ()=>{
 
 export const githublogin = ()=>{
     return signInWithPopup(auth, githubAuthProvider)
+}
+
+export const  passwordreset = (email)=>{
+    return sendPasswordResetEmail(auth , email)
 }

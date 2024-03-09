@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { BrowserRouter as Router , Routes , Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Notfound from './pages/Notfound'
 function App() {
 
   return (
@@ -13,6 +14,8 @@ function App() {
       <Route path='/'  element={<Home/>}/>
         <Route path='/signup'  element={<Signup/>}/>
         <Route path='/login' element={<Login/>} />
+        <Route path='*' element={<Notfound/>} />
+
       </Routes>
       <Toaster/>
     </Router>
